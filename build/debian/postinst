@@ -1,0 +1,40 @@
+#!/bin/bash -u
+
+USER="cornerstonews"
+GROUP="cornerstonews"
+
+SERVICE_NAME=cornerstone-grizzly-server
+INSTALLATION_DIR="/usr/share/java/cornerstonews/grizzly-server/"
+LOGDIR=/var/log/cornerstonews/grizzly-server/
+
+# Add user
+echo "Ensuring user exists"
+if ! id "$USER" > /dev/null 2>&1; then
+    /usr/sbin/adduser --system $USER
+    /usr/sbin/addgroup --system $GROUP
+    /usr/sbin/adduser $USER $GROUP
+fi
+
+# Set ownership
+chown -R $USER:$GROUP $INSTALLATION_DIR
+
+# Ensure log location exists and has correct permissions
+if [ ! -d "$LOGDIR" ]; then
+  mkdir -p "$LOGDIR"
+fi
+chown -R "$USER:$GROUP" "$LOGDIR"
+
+# start the service
+CODE=`lsb_release -cs`
+
+case $CODE in
+  xenial | bionic) 
+      systemctl enable $SERVICE_NAME
+      systemctl start $SERVICE_NAME
+      ;;  
+    *) 
+     echo "ERROR: Unknown OS!"
+     exit 1
+esac
+ 
+exit $?

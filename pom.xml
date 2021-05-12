@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cornerstone-grizzly-server</artifactId>
+    <packaging>jar</packaging>
+    <name>cornerstone-grizzly-server</name>
+    <description>Cornerstone Websocket Server</description>
+
+    <parent>
+        <groupId>com.github.cornerstonews</groupId>
+        <artifactId>cornerstone-project</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
+        <relativePath>../cornerstone-project/pom.xml</relativePath>
+    </parent>
+
+    <scm>
+        <connection>scm:git:git@github.com:cornerstonews/cornerstone-grizzly-server.git</connection>
+        <developerConnection>scm:git:git@github.com:cornerstonews/cornerstone-grizzly-server.git</developerConnection>
+        <url>https://github.com/cornerstonews/cornerstone-grizzly-server</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.glassfish.tyrus>1.17</org.glassfish.tyrus>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>net.sourceforge.javadpkg</groupId>
+                <artifactId>dpkg-maven-plugin</artifactId>
+                <version>1.0.5</version>
+                <executions>
+                    <execution>
+                        <id>Cornerstone Websocket Server</id>
+                        <goals>
+                            <goal>dpkg</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <control>
+                                <name>cornerstone-grizzly-server</name>
+                                <version>${debian.package.version}-1</version>
+                                <architecture>all</architecture>
+                                <section>java</section>
+                                <priority>optional</priority>
+                                <depends>
+                                    <dependencies>
+                                        <dependency>openjdk-11-jdk</dependency>
+                                    </dependencies>
+                                </depends>
+                                <description>Cornerstone Websocket Server</description>
+                                <maintainer>CornerstoneWS&lt;35946619+cornerstonews@users.noreply.github.com&gt;</maintainer>
+                            </control>
+                            <scripts>
+                                <script>
+                                    <type>POSTINST</type>
+                                    <file>${project.basedir}/build/debian/postinst</file>
+                                </script>
+                                <script>
+                                    <type>PRERM</type>
+                                    <file>${project.basedir}/build/debian/prerm</file>
+                                </script>
+                                <script>
+                                    <type>POSTRM</type>
+                                    <file>${project.basedir}/build/debian/postrm</file>
+                                </script>
+                            </scripts>
+                            <data>
+                                <entries>
+                                    <entry>
+                                        <sourcePath>${project.basedir}/build/debian/cornerstone-grizzly-server.service</sourcePath>
+                                        <targetPath>/lib/systemd/system/cornerstone-grizzly-server.service</targetPath>
+                                        <mode>0644</mode>
+                                    </entry>
+                                    <entry>
+                                        <sourcePath>${project.basedir}/src/main/resources/log4j2.properties</sourcePath>
+                                        <targetPath>/etc/cornerstonews/grizzly-server/log4j2.properties</targetPath>
+                                        <mode>0644</mode>
+                                    </entry>
+                                    <entry>
+                                        <targetPath>/usr/share/java/cornerstonews/grizzly-server/</targetPath>
+                                        <recursive>true</recursive>
+                                    </entry>
+                                    <entry>
+                                        <sourcePath>${project.build.directory}/cornerstone-grizzly-server-${project.version}.jar</sourcePath>
+                                        <targetPath>/usr/share/java/cornerstonews/grizzly-server/cornerstone-grizzly-server-${project.version}.jar</targetPath>
+                                    </entry>
+                                    <entry>
+                                        <symLinkPath>/usr/share/java/cornerstonews/grizzly-server/cornerstone-grizzly-server-${project.version}.jar</symLinkPath>
+                                        <targetPath>/usr/share/java/cornerstonews/grizzly-server/cornerstone-grizzly-server.jar</targetPath>
+                                    </entry>
+                                    <entry>
+                                        <sourcePath>${project.build.directory}/dependency/*.jar</sourcePath>
+                                        <targetPath>/usr/share/java/cornerstonews/grizzly-server/</targetPath>
+                                    </entry>
+                                    <entry>
+                                        <symLinkPath>/etc/cornerstonews/grizzly-server/log4j2.properties</symLinkPath>
+                                        <targetPath>/usr/share/java/cornerstonews/grizzly-server/log4j2.properties</targetPath>
+                                    </entry>
+                                </entries>
+                            </data>
+                            <changeLog />
+                            <copyright />
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-grizzly2-http</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cornerstonews</groupId>
+            <artifactId>cornerstone-ssl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-server</artifactId>
+            <version>${org.glassfish.tyrus}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-grizzly-server</artifactId>
+            <version>${org.glassfish.tyrus}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
+

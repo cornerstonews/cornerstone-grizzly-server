@@ -1,0 +1,6 @@
+#!/bin/bash
+
+## Stop cornerstone-grizzly-server service
+/bin/systemctl stop cornerstone-grizzly-server
+/bin/systemctl disable cornerstone-grizzly-server
+/bin/systemctl daemon-reload
