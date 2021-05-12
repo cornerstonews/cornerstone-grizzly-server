@@ -5,7 +5,7 @@
     <artifactId>cornerstone-grizzly-server</artifactId>
     <packaging>jar</packaging>
     <name>cornerstone-grizzly-server</name>
-    <description>Cornerstone Websocket Server</description>
+    <description>Cornerstone Grizzly Server</description>
 
     <parent>
         <groupId>com.github.cornerstonews</groupId>
@@ -41,7 +41,7 @@
                 <version>1.0.5</version>
                 <executions>
                     <execution>
-                        <id>Cornerstone Websocket Server</id>
+                        <id>Cornerstone Grizzly Server</id>
                         <goals>
                             <goal>dpkg</goal>
                         </goals>
@@ -58,7 +58,7 @@
                                         <dependency>openjdk-11-jdk</dependency>
                                     </dependencies>
                                 </depends>
-                                <description>Cornerstone Websocket Server</description>
+                                <description>Cornerstone Grizzly Server</description>
                                 <maintainer>CornerstoneWS&lt;35946619+cornerstonews@users.noreply.github.com&gt;</maintainer>
                             </control>
                             <scripts>
