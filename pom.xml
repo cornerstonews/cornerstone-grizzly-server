@@ -22,7 +22,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.glassfish.tyrus>1.17</org.glassfish.tyrus>
+        <org.glassfish.tyrus>1.18</org.glassfish.tyrus>
     </properties>
 
     <build>
