@@ -1,0 +1,14 @@
+#!/bin/bash
+
+USER="cornerstonews"
+GROUP="cornerstonews"
+SERVICE_FILE="cornerstone-grizzly-server.service"
+
+rm -rf /etc/systemd/system/multi-user.target.wants/$SERVICE_FILE
+rm -rf /etc/systemd/system/$SERVICE_FILE
+rm -rf /lib/systemd/system/$SERVICE_FILE
+
+if id "$USER" > /dev/null 2>&1; then
+  userdel $USER
+  groupdel $GROUP
+fi

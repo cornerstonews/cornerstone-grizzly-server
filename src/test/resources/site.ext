@@ -1,0 +1,11 @@
+  
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=critical, CA:FALSE
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost.local
+DNS.2 = www.localhost.local
+DNS.3 = localhost.lan

@@ -1,0 +1,15 @@
+[Unit]
+Description=Cornerstone Grizzly Jersey and Websocket Server
+After=network.target
+
+[Service]
+Type=simple
+User=cornerstonews
+Group=cornerstonews
+WorkingDirectory=/usr/share/java/cornerstonews/grizzly-server
+PIDFile=/var/run/cornerstone-grizzly-server.pid
+ExecStart=/usr/bin/java $JAVA_OPTS -cp "/usr/share/java/cornerstonews/grizzly-server:/usr/share/java/cornerstonews/grizzly-server/*" com.github.cornerstonews.grizzly.CornerstoneGrizzlyServer
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
